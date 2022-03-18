@@ -81,8 +81,14 @@ class DataModel(object):
 
             for field, compare, start, stop in field_comparators:
                 if record_1[field] is not None and record_2[field] is not None:
-                    distances[i, start:stop] = compare(record_1[field],
-                                                       record_2[field])
+                    try:
+                        distances[i, start:stop] = compare(record_1[field],
+                                                        record_2[field])
+                    except Exception as err:
+                        print(field)
+                        print(record_1)
+                        print(record_2)
+                        raise err
                 elif hasattr(compare, 'missing'):
                     distances[i, start:stop] = compare(record_1[field],
                                                        record_2[field])
